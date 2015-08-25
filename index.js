@@ -14,6 +14,7 @@ module.exports = (function () {
   var prevUrl = null;
   var origin = location.origin;
   var isPreventingDefault = false;
+  var isSilent = false;
 
   var emitChange = function (url) {
     eventEmitter.emit('change', {
@@ -31,6 +32,10 @@ module.exports = (function () {
 
       event.preventDefault();
 
+      if (isSilent) {
+        return;
+      }
+
       if (isPreventingDefault || location.href === prevUrl) {
         isPreventingDefault = false;
         return;
@@ -38,7 +43,9 @@ module.exports = (function () {
 
       emitChange();
 
-      if (isPreventingDefault) {
+      if (type === 'pop' && !isPreventingDefault) {
+        console.log('event', event);
+      } else if (isPreventingDefault && prevUrl) {
         history.replaceState({}, '', prevUrl.replace(origin, ''));
       } else {
         prevUrl = location.href;
@@ -62,9 +69,22 @@ module.exports = (function () {
 
   global.addEventListener('click', function (event) {
 
-    if (event.target.tagName === 'A' && eventEmitter.listeners('change').length) {
+
+    if (event.target.tagName === 'A') {
       event.preventDefault();
       emitChange(event.target.href);
+
+      if (!isPreventingDefault) {
+        isSilent = true;
+        location.href = event.target.href;
+
+        // When updating hash we have to reset silent when all events
+        // have triggered
+        setTimeout(function () {
+          isSilent = false;
+        }, 0);
+      }
+
     }
   });
 
