@@ -15,6 +15,8 @@ module.exports = (function () {
   var isPreventingDefault = false;
   var index = 0;
   var doReplace = false;
+  var isBatching = false;
+  var batch = [];
 
   var emitChange = function (url) {
     eventEmitter.emit('change', {
@@ -52,11 +54,21 @@ module.exports = (function () {
     },
     set: function (value) {
 
-      if (!doReplace) {
-        history.pushState({url: value, index: index++}, '', value.replace(origin, ''));
-      } else {
-        history.replaceState({url: value, index: index}, '', value.replace(origin, ''));
-        doReplace = false;
+      batch.push(value);
+
+      if (!isBatching) {
+        isBatching = true;
+        setTimeout(function () {
+          value = batch.pop();
+          if (!doReplace) {
+            history.pushState({url: value, index: index++}, '', value.replace(origin, ''));
+          } else {
+            history.replaceState({url: value, index: index}, '', value.replace(origin, ''));
+            doReplace = false;
+          }
+          batch = [];
+          isBatching = false;
+        }, 0);
       }
     }
   });
