@@ -11,10 +11,10 @@ module.exports = (function () {
   eventEmitter.addEventListener = eventEmitter.addListener;
   eventEmitter.removeEventListener = eventEmitter.removeListener;
 
-  var prevUrl = null;
   var origin = location.origin;
   var isPreventingDefault = false;
-  var isSilent = false;
+  var index = 0;
+  var doReplace = false;
 
   var emitChange = function (url) {
     eventEmitter.emit('change', {
@@ -29,25 +29,16 @@ module.exports = (function () {
 
   var onUrlChange = function (type) {
     return function (event) {
-      
-      event.preventDefault();
 
-      if (isSilent) {
+      if (type === 'hash' && event.newURL === location.href) {
         return;
       }
 
-      if (isPreventingDefault || location.href === prevUrl) {
-        isPreventingDefault = false;
-        return;
+      if ('state' in event || (event.state && event.state.index < index)) {
+        doReplace = true;
       }
 
       emitChange();
-
-      if (isPreventingDefault && prevUrl) {
-        history.replaceState({}, '', prevUrl.replace(origin, ''));
-      } else {
-        prevUrl = location.href;
-      }
 
     };
   };
@@ -60,8 +51,13 @@ module.exports = (function () {
       return location.href;
     },
     set: function (value) {
-      isPreventingDefault = true;
-      history.pushState({}, '', value.replace(origin, ''));
+
+      if (!doReplace) {
+        history.pushState({url: value, index: index++}, '', value.replace(origin, ''));
+      } else {
+        history.replaceState({url: value, index: index}, '', value.replace(origin, ''));
+        doReplace = false;
+      }
     }
   });
 
@@ -71,18 +67,6 @@ module.exports = (function () {
     if (event.target.tagName === 'A') {
       event.preventDefault();
       emitChange(event.target.href);
-
-      if (!isPreventingDefault) {
-        isSilent = true;
-        location.href = event.target.href;
-
-        // When updating hash we have to reset silent when all events
-        // have triggered
-        setTimeout(function () {
-          isSilent = false;
-        }, 0);
-      }
-
     }
   });
 
