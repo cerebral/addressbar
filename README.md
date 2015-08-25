@@ -10,8 +10,11 @@ The library just exposes the `addressbar`. It is a single entity in your app whe
 
 ```js
 // At http://www.example.com
+
 addressbar.value // "http://www.example.com"
-addressbar.value = "http://wwww.example.com/test"; // Change addressbar value, but does NOT trigger route change
+
+// Change addressbar value does NOT trigger route change
+addressbar.value = "http://wwww.example.com/test"; 
 
 // Prevent route changes on hyperlinks
 addressbar.addEventListener('change', function (event) {
