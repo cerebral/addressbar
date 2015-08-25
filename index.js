@@ -29,7 +29,7 @@ module.exports = (function () {
 
   var onUrlChange = function (type) {
     return function (event) {
-
+      
       event.preventDefault();
 
       if (isSilent) {
@@ -43,9 +43,7 @@ module.exports = (function () {
 
       emitChange();
 
-      if (type === 'pop' && !isPreventingDefault) {
-        console.log('event', event);
-      } else if (isPreventingDefault && prevUrl) {
+      if (isPreventingDefault && prevUrl) {
         history.replaceState({}, '', prevUrl.replace(origin, ''));
       } else {
         prevUrl = location.href;
