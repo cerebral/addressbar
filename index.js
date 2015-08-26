@@ -32,9 +32,8 @@ module.exports = (function () {
   var onUrlChange = function (type) {
     return function (event) {
 
-
-      if (isSilent && type === 'hash') {
-        isSilent = false;
+      if (isSilent) {
+        isSilent = type !== 'hash';
         return;
       }
 
@@ -51,6 +50,7 @@ module.exports = (function () {
       if (isPreventingDefault) {
         isSilent = true;
         isPreventingDefault = false;
+        history.replaceState({url: prevUrl, index: index}, '', prevUrl.replace(origin, ''));
       } else {
         isSilent = false;
         prevUrl = location.href;
