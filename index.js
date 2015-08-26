@@ -32,6 +32,7 @@ module.exports = (function () {
   var onUrlChange = function (type) {
     return function (event) {
 
+
       if (isSilent && type === 'hash') {
         isSilent = false;
         return;
