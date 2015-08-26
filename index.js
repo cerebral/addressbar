@@ -48,9 +48,14 @@ module.exports = (function () {
       emitChange();
 
       if (isPreventingDefault) {
-        isSilent = true;
         isPreventingDefault = false;
-        history.replaceState({url: prevUrl, index: index}, '', prevUrl.replace(origin, ''));
+        if (location.href.indexOf('#') === -1) {
+          isSilent = false;
+        } else {
+          isSilent = true;
+          history.replaceState({url: prevUrl, index: index}, '', prevUrl.replace(origin, ''));
+        }
+
       } else {
         isSilent = false;
         prevUrl = location.href;
