@@ -17,6 +17,7 @@ module.exports = (function () {
   var index = 0;
   var doReplace = false;
   var prevUrl = location.href;
+  var currentSetUrl = null;
 
   var emitChange = function (url) {
     eventEmitter.emit('change', {
@@ -53,7 +54,13 @@ module.exports = (function () {
           isSilent = false;
         } else {
           isSilent = true;
-          history.replaceState({url: prevUrl, index: index}, '', prevUrl.replace(origin, ''));
+
+          // If not set any new url, meaning its just prevented,
+          // revert url
+          if (currentSetUrl !== location.href) {
+            history.replaceState({url: prevUrl, index: index}, '', prevUrl.replace(origin, ''));
+          }
+
         }
 
       } else {
@@ -72,9 +79,17 @@ module.exports = (function () {
       return location.href;
     },
     set: function (value) {
+
+      if (value.indexOf(origin) === -1) {
+        value = origin + value;
+      }
+
+      currentSetUrl = value;
+
       if (value === location.href) {
         return;
       }
+
       if (!doReplace) {
         history.pushState({url: value, index: index++}, '', value.replace(origin, ''));
       } else {
@@ -83,6 +98,7 @@ module.exports = (function () {
       }
 
       isPreventingDefault = false;
+
     }
   });
 
