@@ -35,7 +35,6 @@ module.exports = (function () {
   var onUrlChange = function (type) {
     return function (event) {
 
-      console.log(type, linkClicked);
       if (linkClicked) {
         linkClicked = type !== 'hash';
         return;
@@ -47,7 +46,6 @@ module.exports = (function () {
       }
 
       if (type === 'hash' && (event.newURL === location.href || isSilent)) {
-        console.log('returning!');
         return;
       }
 
@@ -55,7 +53,6 @@ module.exports = (function () {
         doReplace = true;
       }
 
-      console.log('emitting!', type);
       emitChange();
 
       if (isPreventingDefault) {
