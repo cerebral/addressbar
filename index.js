@@ -13,10 +13,10 @@ module.exports = (function () {
 
   var origin = location.origin;
   var isPreventingDefault = false;
+  var isSilent = false;
   var index = 0;
   var doReplace = false;
-  var isBatching = false;
-  var batch = [];
+  var prevUrl = location.href;
 
   var emitChange = function (url) {
     eventEmitter.emit('change', {
@@ -32,15 +32,32 @@ module.exports = (function () {
   var onUrlChange = function (type) {
     return function (event) {
 
-      if (type === 'hash' && event.newURL === location.href) {
+      if (isSilent) {
+        console.log('silent');
+        isSilent = false;
+        return;
+      }
+
+      if (type === 'hash' && (event.newURL === location.href || isSilent)) {
+        console.log('returning hash', event.newURL);
         return;
       }
 
       if ('state' in event || (event.state && event.state.index < index)) {
+        console.log('do replace');
         doReplace = true;
       }
 
       emitChange();
+
+      if (isPreventingDefault) {
+        isSilent = true;
+        isPreventingDefault = false;
+        console.log('prevUrl', prevUrl);
+        history.replaceState({url: prevUrl, index: index}, '', prevUrl.replace(origin, ''));
+      } else {
+        prevUrl = location.href;
+      }
 
     };
   };
@@ -54,21 +71,11 @@ module.exports = (function () {
     },
     set: function (value) {
 
-      batch.push(value);
-
-      if (!isBatching) {
-        isBatching = true;
-        setTimeout(function () {
-          value = batch.pop();
-          if (!doReplace) {
-            history.pushState({url: value, index: index++}, '', value.replace(origin, ''));
-          } else {
-            history.replaceState({url: value, index: index}, '', value.replace(origin, ''));
-            doReplace = false;
-          }
-          batch = [];
-          isBatching = false;
-        }, 0);
+      if (!doReplace) {
+        history.pushState({url: value, index: index++}, '', value.replace(origin, ''));
+      } else {
+        history.replaceState({url: value, index: index}, '', value.replace(origin, ''));
+        doReplace = false;
       }
     }
   });
