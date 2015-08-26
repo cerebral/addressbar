@@ -72,6 +72,9 @@ module.exports = (function () {
       return location.href;
     },
     set: function (value) {
+      if (value === location.href) {
+        return;
+      }
       if (!doReplace) {
         history.pushState({url: value, index: index++}, '', value.replace(origin, ''));
       } else {
