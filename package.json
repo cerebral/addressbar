@@ -1,6 +1,6 @@
 {
   "name": "addressbar",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Makes the addressbar of the browser work just like a normal input",
   "main": "index.js",
   "scripts": {

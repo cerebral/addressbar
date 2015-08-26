@@ -35,6 +35,7 @@ module.exports = (function () {
   var onUrlChange = function (type) {
     return function (event) {
 
+      console.log(type, linkClicked);
       if (linkClicked) {
         linkClicked = type !== 'hash';
         return;
@@ -117,6 +118,9 @@ module.exports = (function () {
     if (event.target.tagName === 'A') {
       linkClicked = true;
       emitChange(event.target.href, event);
+      if (isPreventingDefault) {
+        linkClicked = false;
+      }
     }
   });
 
