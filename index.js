@@ -19,9 +19,10 @@ module.exports = (function () {
   var prevUrl = location.href;
   var hasSetUrl = false;
 
-  var emitChange = function (url) {
+  var emitChange = function (url, event) {
     eventEmitter.emit('change', {
       preventDefault: function () {
+        event && event.preventDefault();
         isPreventingDefault = true;
       },
       target: {
@@ -108,8 +109,7 @@ module.exports = (function () {
 
 
     if (event.target.tagName === 'A') {
-      event.preventDefault();
-      emitChange(event.target.href);
+      emitChange(event.target.href, event);
     }
   });
 
