@@ -17,7 +17,7 @@ module.exports = (function () {
   var index = 0;
   var doReplace = false;
   var prevUrl = location.href;
-  var currentSetUrl = null;
+  var hasSetUrl = false;
 
   var emitChange = function (url) {
     eventEmitter.emit('change', {
@@ -57,7 +57,7 @@ module.exports = (function () {
 
           // If not set any new url, meaning its just prevented,
           // revert url
-          if (currentSetUrl !== location.href) {
+          if (!hasSetUrl) {
             history.replaceState({url: prevUrl, index: index}, '', prevUrl.replace(origin, ''));
           }
 
@@ -67,6 +67,8 @@ module.exports = (function () {
         isSilent = false;
         prevUrl = location.href;
       }
+
+      hasSetUrl = false;
 
     };
   };
@@ -84,7 +86,7 @@ module.exports = (function () {
         value = origin + value;
       }
 
-      currentSetUrl = value;
+      hasSetUrl = true;
 
       if (value === location.href) {
         return;
