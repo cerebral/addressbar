@@ -18,6 +18,7 @@ module.exports = (function () {
   var doReplace = false;
   var prevUrl = location.href;
   var hasSetUrl = false;
+  var linkClicked = false;
 
   var emitChange = function (url, event) {
     eventEmitter.emit('change', {
@@ -34,12 +35,18 @@ module.exports = (function () {
   var onUrlChange = function (type) {
     return function (event) {
 
+      if (linkClicked) {
+        linkClicked = type !== 'hash';
+        return;
+      }
+
       if (isSilent) {
         isSilent = type !== 'hash';
         return;
       }
 
       if (type === 'hash' && (event.newURL === location.href || isSilent)) {
+        console.log('returning!');
         return;
       }
 
@@ -47,6 +54,7 @@ module.exports = (function () {
         doReplace = true;
       }
 
+      console.log('emitting!', type);
       emitChange();
 
       if (isPreventingDefault) {
@@ -106,9 +114,8 @@ module.exports = (function () {
   });
 
   global.addEventListener('click', function (event) {
-
-
     if (event.target.tagName === 'A') {
+      linkClicked = true;
       emitChange(event.target.href, event);
     }
   });
