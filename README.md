@@ -23,4 +23,4 @@ addressbar.addEventListener('change', function (event) {
 });
 ```
 
-This is low level code, so there is no routing logic here. Please check out [reactive-router](https://github.com/christianalfoni/reactive-router) which uses this project for an example of use.
+This is low level code, so there is no routing logic here. Please check out [url-mapper](https://github.com/christianalfoni/url-mapper) which can be used to create routing logic. 
