@@ -19,7 +19,7 @@ addressbar.value = "http://wwww.example.com/test";
 // Prevent route changes on hyperlinks
 addressbar.addEventListener('change', function (event) {
   event.preventDefault();
-  event.target.value // The HREF value of the hyperlink
+  event.target.value // The value of the addressbar
 });
 ```
 
