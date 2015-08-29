@@ -89,6 +89,10 @@ module.exports = (function () {
     },
     set: function (value) {
 
+      if (typeof value !== 'string') {
+        return;
+      }
+      
       if (value.indexOf(origin) === -1) {
         value = origin + value;
       }
