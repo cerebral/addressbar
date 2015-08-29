@@ -115,10 +115,48 @@ module.exports = (function () {
     }
   });
 
-  global.addEventListener('click', function (event) {
-    if (event.target.tagName === 'A') {
+  var isSameOrigin = function (href) {
+    var origin = location.protocol + '//' + location.hostname;
+    if (location.port) origin += ':' + location.port;
+    return (href && (0 === href.indexOf(origin)));
+  }
+
+  var getClickedHref = function (event) {
+    // check which button
+    if (1 !== (null === event.which ? event.button : event.which)) { return false };
+
+    // check for modifiers
+    if (event.metaKey || event.ctrlKey || event.shiftKey) { return false };
+    if (event.defaultPrevented) { return false };
+
+    // ensure link
+    var element = event.target;
+    while (element && 'A' !== element.nodeName) { element = element.parentNode };
+    if (!element || 'A' !== element.nodeName) { return false };
+
+    // Ignore if tag has
+    // 1. "download" attribute
+    // 2. rel="external" attribute
+    if (element.hasAttribute('download') || element.getAttribute('rel') === 'external') { return false };
+
+    // Check for mailto: in the href
+    var href = element.getAttribute('href');
+    if (href && href.indexOf('mailto:') > -1) { return false };
+
+    // check target
+    if (element.target) { return false };
+
+    // x-origin
+    if (!isSameOrigin(element.href)) { return false };
+
+    return href;
+  }
+
+  global.addEventListener(document.ontouchstart ? 'touchstart' : 'click', function (event) {
+    var href = getClickedHref(event);
+    if (href) {
       linkClicked = true;
-      emitChange(event.target.href, event);
+      emitChange(href, event);
       if (isPreventingDefault) {
         linkClicked = false;
       }
