@@ -40,7 +40,6 @@ module.exports = (function () {
   var onUrlChange = function (type) {
     return function (event) {
 
-      console.log('type', type, prevUrl);
       if (linkClicked && hasHash() && type === 'pop') {
         linkClicked = false;
         return;
@@ -71,7 +70,6 @@ module.exports = (function () {
       prevUrl = location.href;
       isPreventingDefault = false;
       setSyncUrl = false;
-      console.log('Changing back');
 
     };
   };
