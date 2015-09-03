@@ -44,8 +44,8 @@ module.exports = (function () {
         return;
       }
 
-      if (isSilent) {
-        isSilent = type !== 'hash';
+      if (isSilent && hasHash() && type === 'pop') {
+        isSilent = false;
         return;
       }
 
