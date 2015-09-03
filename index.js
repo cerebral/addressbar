@@ -19,6 +19,7 @@ module.exports = (function () {
   var prevUrl = location.href;
   var hasSetUrl = false;
   var linkClicked = false;
+  var isEmitting = false;
 
   var emitChange = function (url, event) {
     eventEmitter.emit('change', {
@@ -49,15 +50,17 @@ module.exports = (function () {
         return;
       }
 
-      if (type === 'hash' && (event.newURL === location.href || isSilent)) {
-        //return;
+      if (hasHash && type === 'pop') {
+        return;
       }
 
       if ('state' in event || (event.state && event.state.index < index)) {
         doReplace = true;
       }
 
+      isEmitting = true;
       emitChange();
+      isEmitting = false;
 
       if (isPreventingDefault) {
         isPreventingDefault = false;
@@ -79,8 +82,6 @@ module.exports = (function () {
         prevUrl = location.href;
       }
 
-      hasSetUrl = false;
-
     };
   };
 
@@ -97,7 +98,11 @@ module.exports = (function () {
         value = origin + value;
       }
 
-      hasSetUrl = true;
+      // This might be part of a sync event, which
+      // should be reverted when sync execution is done
+      if (isEmitting) {
+        hasSetUrl = true;
+      }
 
       if (value === location.href) {
         return;
