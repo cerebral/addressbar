@@ -32,11 +32,15 @@ module.exports = (function () {
     });
   };
 
+  var hasHash = function (url) {
+    return location.href.indexOf('#') !== -1;
+  };
+
   var onUrlChange = function (type) {
     return function (event) {
 
-      if (linkClicked) {
-        linkClicked = type !== 'hash';
+      if (linkClicked && hasHash() && type === 'pop') {
+        linkClicked = false;
         return;
       }
 
@@ -46,7 +50,7 @@ module.exports = (function () {
       }
 
       if (type === 'hash' && (event.newURL === location.href || isSilent)) {
-        return;
+        //return;
       }
 
       if ('state' in event || (event.state && event.state.index < index)) {
@@ -89,10 +93,6 @@ module.exports = (function () {
     },
     set: function (value) {
 
-      if (typeof value !== 'string') {
-        return;
-      }
-      
       if (value.indexOf(origin) === -1) {
         value = origin + value;
       }
