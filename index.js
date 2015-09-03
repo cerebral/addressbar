@@ -17,9 +17,9 @@ module.exports = (function () {
   var index = 0;
   var doReplace = false;
   var prevUrl = location.href;
-  var hasSetUrl = false;
   var linkClicked = false;
   var isEmitting = false;
+  var setSyncUrl = false;
 
   var emitChange = function (url, event) {
     eventEmitter.emit('change', {
@@ -40,6 +40,7 @@ module.exports = (function () {
   var onUrlChange = function (type) {
     return function (event) {
 
+      console.log('type', type, prevUrl);
       if (linkClicked && hasHash() && type === 'pop') {
         linkClicked = false;
         return;
@@ -62,25 +63,15 @@ module.exports = (function () {
       emitChange();
       isEmitting = false;
 
-      if (isPreventingDefault) {
-        isPreventingDefault = false;
-        if (location.href.indexOf('#') === -1) {
-          isSilent = false;
-        } else {
-          isSilent = true;
-
-          // If not set any new url, meaning its just prevented,
-          // revert url
-          if (!hasSetUrl) {
-            history.replaceState({url: prevUrl, index: index}, '', prevUrl.replace(origin, ''));
-          }
-
-        }
-
-      } else {
-        isSilent = false;
-        prevUrl = location.href;
+      if (!setSyncUrl) {
+        history.replaceState({url: prevUrl, index: index}, '', prevUrl.replace(origin, ''));
       }
+
+      isSilent = false;
+      prevUrl = location.href;
+      isPreventingDefault = false;
+      setSyncUrl = false;
+      console.log('Changing back');
 
     };
   };
@@ -94,17 +85,19 @@ module.exports = (function () {
     },
     set: function (value) {
 
+      if (isEmitting) {
+        setSyncUrl = true;
+      }
+
       if (value.indexOf(origin) === -1) {
         value = origin + value;
       }
 
-      // This might be part of a sync event, which
-      // should be reverted when sync execution is done
-      if (isEmitting) {
-        hasSetUrl = true;
+      if (value === location.href) {
+        return;
       }
 
-      if (value === location.href) {
+      if (isPreventingDefault && !isEmitting && !linkClicked) {
         return;
       }
 
@@ -161,10 +154,15 @@ module.exports = (function () {
     var href = getClickedHref(event);
     if (href) {
       linkClicked = true;
+      isEmitting = true;
       emitChange(href, event);
+      isEmitting = false;
       if (isPreventingDefault) {
         linkClicked = false;
       }
+      isSilent = false;
+      prevUrl = location.href;
+      isPreventingDefault = false;
     }
   });
 
