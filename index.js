@@ -40,7 +40,6 @@ module.exports = (function () {
   var onUrlChange = function (type) {
     return function (event) {
 
-      console.log('type', type);
       if (linkClicked && hasHash() && type === 'pop') {
         linkClicked = false;
         return;
