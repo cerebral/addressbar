@@ -16,7 +16,7 @@ module.exports = (function () {
   var isSilent = false;
   var index = 0;
   var doReplace = false;
-  var prevUrl = location.href;
+  var prevUrl = null;
   var linkClicked = false;
   var isEmitting = false;
   var setSyncUrl = false;
@@ -40,21 +40,14 @@ module.exports = (function () {
   var onUrlChange = function (type) {
     return function (event) {
 
-      if (linkClicked && hasHash() && type === 'pop') {
-        linkClicked = false;
+      console.log('got event', type, location.href, prevUrl);
+      if (location.href === prevUrl) {
+        console.log('retuning!');
         return;
       }
 
-      if (isSilent && hasHash() && type === 'pop') {
-        isSilent = false;
-        return;
-      }
-
-      if (hasHash() && type === 'pop') {
-        return;
-      }
-
-      if ('state' in event || (event.state && event.state.index < index)) {
+      // If going back or if using trailing slash
+      if (event.state && event.state.index < index || location.href[location.href.length - 1] === '/') {
         doReplace = true;
       }
 
@@ -70,11 +63,11 @@ module.exports = (function () {
       prevUrl = location.href;
       isPreventingDefault = false;
       setSyncUrl = false;
+      doReplace = false;
 
     };
   };
 
-  global.addEventListener('hashchange', onUrlChange('hash'));
   global.addEventListener('popstate', onUrlChange('pop'));
 
   Object.defineProperty(eventEmitter, 'value', {
@@ -159,7 +152,7 @@ module.exports = (function () {
         linkClicked = false;
       }
       isSilent = false;
-      prevUrl = location.href;
+      prevUrl = href;
       isPreventingDefault = false;
     }
   });
