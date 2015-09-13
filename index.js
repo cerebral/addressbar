@@ -13,10 +13,9 @@ module.exports = (function () {
 
   var origin = location.origin;
   var isPreventingDefault = false;
-  var isSilent = false;
-  var index = 0;
   var doReplace = false;
-  var prevUrl = null;
+  var initialUrl = location.href;
+  var prevUrl = '';
   var linkClicked = false;
   var isEmitting = false;
   var setSyncUrl = false;
@@ -33,21 +32,15 @@ module.exports = (function () {
     });
   };
 
-  var hasHash = function (url) {
-    return location.href.indexOf('#') !== -1;
-  };
-
   var onUrlChange = function (type) {
     return function (event) {
 
-      console.log('got event', type, location.href, prevUrl);
       if (location.href === prevUrl) {
-        console.log('retuning!');
         return;
       }
 
-      // If going back or if using trailing slash
-      if (event.state && event.state.index < index || location.href[location.href.length - 1] === '/') {
+      // Fixes bug where trailing slash is converted to normal url
+      if (location.href[location.href.length - 1] === '/') {
         doReplace = true;
       }
 
@@ -55,11 +48,10 @@ module.exports = (function () {
       emitChange();
       isEmitting = false;
 
-      if (!setSyncUrl) {
-        history.replaceState({url: prevUrl, index: index}, '', prevUrl.replace(origin, ''));
+      if (!setSyncUrl && isPreventingDefault) {
+        history.replaceState({}, '', (prevUrl || initialUrl).replace(origin, ''));
       }
 
-      isSilent = false;
       prevUrl = location.href;
       isPreventingDefault = false;
       setSyncUrl = false;
@@ -76,33 +68,40 @@ module.exports = (function () {
     },
     set: function (value) {
 
+      // If emitting a change we flag that we are setting
+      // a url based on the event being emitted
       if (isEmitting) {
         setSyncUrl = true;
       }
 
+      // Ensure full url
       if (value.indexOf(origin) === -1) {
         value = origin + value;
       }
 
+      // If it is same url, forget about it
       if (value === location.href) {
         return;
       }
 
-      if (isPreventingDefault && !isEmitting && !linkClicked) {
-        return;
-      }
-
-      if (!doReplace) {
-        history.pushState({url: value, index: index++}, '', value.replace(origin, ''));
-      } else {
-        history.replaceState({url: value, index: index}, '', value.replace(origin, ''));
+      // We might need to replace the url if we are fixing
+      // for example trailing slash issue
+      if (doReplace) {
+        history.replaceState({}, '', value.replace(origin, ''));
         doReplace = false;
+      } else {
+        history.pushState({}, '', value.replace(origin, ''));
       }
 
       isPreventingDefault = false;
 
     }
   });
+
+  /*
+    This code is from the Page JS source code. Amazing work on handling all
+    kinds of scenarios with hyperlinks, thanks!
+   */
 
   var isSameOrigin = function (href) {
     var origin = location.protocol + '//' + location.hostname;
@@ -151,7 +150,6 @@ module.exports = (function () {
       if (isPreventingDefault) {
         linkClicked = false;
       }
-      isSilent = false;
       prevUrl = href;
       isPreventingDefault = false;
     }

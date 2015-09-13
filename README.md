@@ -12,7 +12,7 @@ The library just exposes the `addressbar`. It is a single entity in your app whe
 addressbar.value // "http://www.example.com"
 
 // Change addressbar value does NOT trigger route change
-addressbar.value = "http://wwww.example.com/test"; 
+addressbar.value = "http://wwww.example.com/test";
 
 // Prevent route changes on hyperlinks
 addressbar.addEventListener('change', function (event) {
@@ -21,4 +21,15 @@ addressbar.addEventListener('change', function (event) {
 });
 ```
 
-This is low level code, so there is no routing logic here. Please check out [url-mapper](https://github.com/christianalfoni/url-mapper) which can be used to create routing logic. 
+This is low level code, so there is no routing logic here. Please check out [url-mapper](https://github.com/christianalfoni/url-mapper) which can be used to create routing logic.
+
+## Under the hood
+Addressbar listens to `popstate` events and handles hyperlinks. It basically has logic to simulate how an input works, also handling a few edge cases.
+
+## Tests
+Addressbar is running with selenium-driver and nodeunit to test live in Chrome. Requires [selenium chrome driver](https://sites.google.com/a/chromium.org/chromedriver/downloads) to be installed and added to **PATH**.
+
+Run tests:
+- `npm install`
+- `npm start` (fires up a python webservice)
+- `npm test` (Runs tests)

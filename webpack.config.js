@@ -1,12 +1,16 @@
+var Webpack = require('webpack');
 var path = require('path');
-var node_modules = path.resolve(__dirname, 'node_modules');
+var nodeModulesPath = path.resolve(__dirname, 'node_modules');
 var buildPath = path.resolve(__dirname, 'build');
 
 var config = {
-  entry: path.resolve(__dirname, 'index.js'),
+  context: __dirname,
   devtool: 'eval-source-map',
+  entry: [
+    path.resolve(__dirname, 'index.js')],
   output: {
-    filename: 'bundle.js',
+    path: buildPath,
+    filename: 'addressbar.js',
     libraryTarget: 'umd',
     library: 'addressbar'
   }

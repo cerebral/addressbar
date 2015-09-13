@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <script src="/build/addressbar.js"></script>
+    <script>
+      addressbar.addEventListener('change', function (event) {
+        if (~event.target.value.indexOf('#')) {
+          event.preventDefault();
+          var url = event.target.value;
+          addressbar.value = url[url.length - 1] === '/' ? url.substr(0, url.length - 1) : url;
+        }
+      });
+    </script>
+  </body>
+</html>
