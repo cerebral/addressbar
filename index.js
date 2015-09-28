@@ -35,6 +35,8 @@ module.exports = (function () {
   var onUrlChange = function (type) {
     return function (event) {
 
+      console.log('Got event on url change', event, type, prevUrl, location.href);
+
       if (location.href === prevUrl) {
         return;
       }
@@ -52,7 +54,6 @@ module.exports = (function () {
         history.replaceState({}, '', (prevUrl || initialUrl).replace(origin, ''));
       }
 
-      prevUrl = location.href;
       isPreventingDefault = false;
       setSyncUrl = false;
       doReplace = false;
@@ -67,6 +68,7 @@ module.exports = (function () {
       return location.href;
     },
     set: function (value) {
+
 
       // If emitting a change we flag that we are setting
       // a url based on the event being emitted
@@ -93,6 +95,7 @@ module.exports = (function () {
         history.pushState({}, '', value.replace(origin, ''));
       }
 
+      prevUrl = location.href;
       isPreventingDefault = false;
 
     }

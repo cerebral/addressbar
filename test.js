@@ -6,6 +6,7 @@ var setUrl = baseUrl + 'tests/set/';
 var popstateUrl = baseUrl + 'tests/popstate/';
 var hashUrl = baseUrl + 'tests/hash/';
 var trailingUrl = baseUrl + 'tests/trailing/';
+var uichange = baseUrl + 'tests/uichange/';
 
 exports['should display current url'] = function (test) {
 
@@ -191,6 +192,49 @@ exports['should resume history when changing url when on "back" url'] = function
     driver.navigate().forward();
     driver.getCurrentUrl().then(function (url) {
       test.equal(url, baseUrl + '#/messages/456');
+    });
+
+    driver.quit().then(test.done);
+
+};
+
+exports['should be able to go forward and backwards twice'] = function (test) {
+
+    var driver = new webdriver.Builder().
+       withCapabilities(webdriver.Capabilities.chrome()).
+       build();
+    driver.get(uichange);
+
+    driver.findElement(by.id('messages')).click();
+    driver.getCurrentUrl().then(function (url) {
+      test.equal(url, baseUrl + '#/messages');
+    });
+    driver.findElement(by.id('url')).getText().then(function (text) {
+      test.equal(text, '/#/messages');
+    });
+
+    driver.navigate().back();
+    driver.getCurrentUrl().then(function (url) {
+      test.equal(url, baseUrl + 'tests/uichange/');
+    });
+    driver.findElement(by.id('url')).getText().then(function (text) {
+      test.equal(text, baseUrl + 'tests/uichange/');
+    });
+
+    driver.findElement(by.id('messages')).click();
+    driver.getCurrentUrl().then(function (url) {
+      test.equal(url, baseUrl + '#/messages');
+    });
+    driver.findElement(by.id('url')).getText().then(function (text) {
+      test.equal(text,  '/#/messages');
+    });
+
+    driver.navigate().back();
+    driver.getCurrentUrl().then(function (url) {
+      test.equal(url, baseUrl + 'tests/uichange/');
+    });
+    driver.findElement(by.id('url')).getText().then(function (text) {
+      test.equal(text, baseUrl + 'tests/uichange/');
     });
 
     driver.quit().then(test.done);

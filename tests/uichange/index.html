@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <script>
+      function changeUrl () {
+        addressbar.value = '/#/messages';
+        document.body.querySelector('#url').innerHTML = '/#/messages';
+      }
+    </script>
+    <a id="messages" onClick="changeUrl()">Messages</a>
+    <div id="url"></div>
+    <script src="/build/addressbar.js"></script>
+    <script>
+      addressbar.addEventListener('change', function (event) {
+        event.preventDefault();
+        var url = event.target.value;
+        addressbar.value = url;
+        document.body.querySelector('#url').innerHTML = url;
+      });
+    </script>
+  </body>
+</html>
