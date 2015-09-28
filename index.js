@@ -35,8 +35,6 @@ module.exports = (function () {
   var onUrlChange = function (type) {
     return function (event) {
 
-      console.log('Got event on url change', event, type, prevUrl, location.href);
-
       if (location.href === prevUrl) {
         return;
       }
