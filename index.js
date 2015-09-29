@@ -52,6 +52,7 @@ module.exports = (function () {
         history.replaceState({}, '', (prevUrl || initialUrl).replace(origin, ''));
       }
 
+      prevUrl = location.href;
       isPreventingDefault = false;
       setSyncUrl = false;
       doReplace = false;
