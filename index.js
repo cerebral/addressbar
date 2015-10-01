@@ -1,5 +1,11 @@
 var EventEmitter = require('events').EventEmitter;
 var instance = null;
+var location = window.history.location || window.location;
+
+if (!location.origin) {
+  location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
+}
+
 module.exports = (function () {
 
   if (instance) {
