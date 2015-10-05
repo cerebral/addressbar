@@ -1,10 +1,6 @@
 var EventEmitter = require('events').EventEmitter;
 var instance = null;
-<<<<<<< HEAD
 
-// Check if IE history polyfill is added
-=======
->>>>>>> origin/master
 var location = window.history.location || window.location;
 
 if (!location.origin) {
