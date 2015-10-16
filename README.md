@@ -14,6 +14,12 @@ addressbar.value // "http://www.example.com"
 // Change addressbar value does NOT trigger route change
 addressbar.value = "http://wwww.example.com/test";
 
+// You can force a replace of the url setting an object as value
+addressbar.value = {
+  value: "http://www.example.com/test",
+  replace: true
+};
+
 // Prevent route changes on hyperlinks
 addressbar.addEventListener('change', function (event) {
   event.preventDefault();

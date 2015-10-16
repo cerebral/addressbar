@@ -4,18 +4,21 @@
   <body>
     <script>
       function changeUrl () {
-        addressbar.value = location.origin + '/#/messages';
-        document.body.querySelector('#url').innerHTML = location.origin + '/#/messages';
+        addressbar.value = '/#/home'
+      }
+      function replaceUrl () {
+        addressbar.value = {
+          value: '/#/messages',
+          replace: true
+        }
       }
     </script>
-    <a id="home" href="/#/">Home</a>
-    <a id="messages" onClick="changeUrl()">Messages</a>
+    <button id="home" onClick="changeUrl()">home</button>
+    <button id="messages" onClick="replaceUrl()">messages</button>
     <div id="url"></div>
     <script src="/build/addressbar.js"></script>
     <script>
       addressbar.addEventListener('change', function (event) {
-
-        console.log('Got change', event.target.value);
         event.preventDefault();
         var url = event.target.value;
         addressbar.value = url;

@@ -34,7 +34,7 @@ module.exports = (function () {
         isPreventingDefault = true;
       },
       target: {
-        value: url || location.href
+        value: url ? origin + url : location.href
       }
     });
   };
@@ -75,6 +75,10 @@ module.exports = (function () {
     },
     set: function (value) {
 
+      if (typeof value !== 'string') {
+          value = value.value;
+          doReplace = Boolean(value.replace);
+      }
 
       // If emitting a change we flag that we are setting
       // a url based on the event being emitted

@@ -7,6 +7,7 @@ var popstateUrl = baseUrl + 'tests/popstate/';
 var hashUrl = baseUrl + 'tests/hash/';
 var trailingUrl = baseUrl + 'tests/trailing/';
 var uichange = baseUrl + 'tests/uichange/';
+var replace = baseUrl + 'tests/replace/';
 
 exports['should display current url'] = function (test) {
 
@@ -210,7 +211,7 @@ exports['should be able to go forward and backwards twice'] = function (test) {
       test.equal(url, baseUrl + '#/messages');
     });
     driver.findElement(by.id('url')).getText().then(function (text) {
-      test.equal(text, '/#/messages');
+      test.equal(text, baseUrl + '#/messages');
     });
 
     driver.navigate().back();
@@ -226,7 +227,7 @@ exports['should be able to go forward and backwards twice'] = function (test) {
       test.equal(url, baseUrl + '#/messages');
     });
     driver.findElement(by.id('url')).getText().then(function (text) {
-      test.equal(text,  '/#/messages');
+      test.equal(text,  baseUrl + '#/messages');
     });
 
     driver.navigate().back();
@@ -253,7 +254,7 @@ exports['should be able to move back and forward with mix of url and setting man
       test.equal(url, baseUrl + '#/');
     });
     driver.findElement(by.id('url')).getText().then(function (text) {
-      test.equal(text, '/#/');
+      test.equal(text, baseUrl + '#/');
     });
 
     driver.findElement(by.id('messages')).click();
@@ -261,7 +262,7 @@ exports['should be able to move back and forward with mix of url and setting man
       test.equal(url, baseUrl + '#/messages');
     });
     driver.findElement(by.id('url')).getText().then(function (text) {
-      test.equal(text,  '/#/messages');
+      test.equal(text, baseUrl + '#/messages');
     });
 
     driver.findElement(by.id('home')).click();
@@ -269,7 +270,7 @@ exports['should be able to move back and forward with mix of url and setting man
       test.equal(url, baseUrl + '#/');
     });
     driver.findElement(by.id('url')).getText().then(function (text) {
-      test.equal(text, '/#/');
+      test.equal(text, baseUrl + '#/');
     });
 
     driver.findElement(by.id('messages')).click();
@@ -277,7 +278,7 @@ exports['should be able to move back and forward with mix of url and setting man
       test.equal(url, baseUrl + '#/messages');
     });
     driver.findElement(by.id('url')).getText().then(function (text) {
-      test.equal(text,  '/#/messages');
+      test.equal(text,  baseUrl + '#/messages');
     });
 
     driver.navigate().back();
@@ -310,6 +311,35 @@ exports['should be able to move back and forward with mix of url and setting man
     });
     driver.findElement(by.id('url')).getText().then(function (text) {
       test.equal(text, baseUrl + 'tests/uichange/');
+    });
+
+    driver.quit().then(test.done);
+
+};
+
+exports['should be able to replace the set url'] = function (test) {
+
+    var driver = new webdriver.Builder().
+       withCapabilities(webdriver.Capabilities.chrome()).
+       build();
+    driver.get(replace);
+
+    driver.findElement(by.id('home')).click();
+    driver.getCurrentUrl().then(function (url) {
+      test.equal(url, baseUrl + '#/home');
+    });
+
+    driver.findElement(by.id('messages')).click();
+    driver.getCurrentUrl().then(function (url) {
+      test.equal(url, baseUrl + '#/messages');
+    });
+
+    driver.navigate().back();
+    driver.getCurrentUrl().then(function (url) {
+      test.equal(url, 'http://localhost:3001/tests/replace/');
+    });
+    driver.findElement(by.id('url')).getText().then(function (text) {
+      test.equal(text, 'http://localhost:3001/tests/replace/');
     });
 
     driver.quit().then(test.done);
