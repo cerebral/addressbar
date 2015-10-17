@@ -4,10 +4,6 @@ var instance = null;
 
 var location = window.history.location || window.location;
 
-if (!location.origin) {
-  location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
-}
-
 module.exports = (function () {
 
   if (instance) {
@@ -19,10 +15,10 @@ module.exports = (function () {
   eventEmitter.addEventListener = eventEmitter.addListener;
   eventEmitter.removeEventListener = eventEmitter.removeListener;
 
-  var origin = location.origin;
+  var initialUrl = location.href;
+  var origin = URI(initialUrl).protocol() + '://' + URI(initialUrl).host();
   var isPreventingDefault = false;
   var doReplace = false;
-  var initialUrl = location.href;
   var prevUrl = '';
   var linkClicked = false;
   var isEmitting = false;
@@ -146,8 +142,6 @@ module.exports = (function () {
    */
 
   var isSameOrigin = function (href) {
-    var origin = location.protocol + '//' + location.hostname;
-    if (location.port) origin += ':' + location.port;
     return (href && (0 === href.indexOf(origin)));
   }
 
