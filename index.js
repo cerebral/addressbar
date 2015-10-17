@@ -1,3 +1,4 @@
+var URI = require('urijs');
 var EventEmitter = require('events').EventEmitter;
 var instance = null;
 
@@ -110,6 +111,34 @@ module.exports = (function () {
 
     }
   });
+
+  // expose URLUtils like API https://developer.mozilla.org/en-US/docs/Web/API/URLUtils
+  // thanks https://github.com/cofounders/urlutils for reference
+  Object.defineProperty(eventEmitter, 'origin', {
+    get: function () {
+      var uri = URI(location.href);
+      return uri.protocol() + '://' + uri.host();
+    }
+  });
+
+  Object.defineProperty(eventEmitter, 'protocol', {
+    get: function () {
+      return URI(location.href).protocol() + ':';
+    }
+  });
+
+  'hash host hostname href password pathname port search username'
+    .split(/\s+/)
+    .forEach(function (property) {
+      Object.defineProperty(eventEmitter, property, {
+        get: function () {
+          return URI(location.href)[property]();
+        },
+        set: function (value) {
+          eventEmitter.value = URI(location.href)[property](value).toString();
+        }
+      });
+    });
 
   /*
     This code is from the Page JS source code. Amazing work on handling all
