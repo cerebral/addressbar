@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <div id="origin"></div>
+    <div id="protocol"></div>
+    <div id="port"></div>
+    <div id="hostname"></div>
+    <script src="/build/addressbar.js"></script>
+    <script>
+
+    document.querySelector('#origin').innerHTML = addressbar.origin;
+    document.querySelector('#protocol').innerHTML = addressbar.protocol;
+    document.querySelector('#port').innerHTML = addressbar.port;
+    document.querySelector('#hostname').innerHTML = addressbar.hostname;
+
+    </script>
+  </body>
+</html>

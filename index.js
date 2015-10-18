@@ -2,7 +2,7 @@ var URI = require('urijs');
 var EventEmitter = require('events').EventEmitter;
 var instance = null;
 
-var location = window.history.location || window.location;
+var location = window.location;
 
 module.exports = (function () {
 
@@ -123,18 +123,17 @@ module.exports = (function () {
     }
   });
 
-  'hash host hostname href password pathname port search username'
-    .split(/\s+/)
-    .forEach(function (property) {
-      Object.defineProperty(eventEmitter, property, {
-        get: function () {
-          return URI(location.href)[property]();
-        },
-        set: function (value) {
-          eventEmitter.value = URI(location.href)[property](value).toString();
-        }
-      });
-    });
+  Object.defineProperty(eventEmitter, 'port', {
+    get: function () {
+      return URI(location.href).port();
+    }
+  });
+
+  Object.defineProperty(eventEmitter, 'hostname', {
+    get: function () {
+      return URI(location.href).hostname();
+    }
+  });
 
   /*
     This code is from the Page JS source code. Amazing work on handling all

@@ -20,6 +20,12 @@ addressbar.value = {
   replace: true
 };
 
+// You have access to location properties
+addressbar.origin // "http://www.example.com"
+addressbar.port // ""
+addressbar.protocol // "http:"
+addressbar.hostname // "www.example.com"
+
 // Prevent route changes on hyperlinks
 addressbar.addEventListener('change', function (event) {
   event.preventDefault();

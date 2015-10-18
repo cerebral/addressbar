@@ -8,6 +8,7 @@ var hashUrl = baseUrl + 'tests/hash/';
 var trailingUrl = baseUrl + 'tests/trailing/';
 var uichange = baseUrl + 'tests/uichange/';
 var replace = baseUrl + 'tests/replace/';
+var uri = baseUrl + 'tests/uri/';
 
 exports['should display current url'] = function (test) {
 
@@ -340,6 +341,33 @@ exports['should be able to replace the set url'] = function (test) {
     });
     driver.findElement(by.id('url')).getText().then(function (text) {
       test.equal(text, 'http://localhost:3001/tests/replace/');
+    });
+
+    driver.quit().then(test.done);
+
+};
+
+exports['should expose origin, protocol, port and hostname as properties'] = function (test) {
+
+    var driver = new webdriver.Builder().
+       withCapabilities(webdriver.Capabilities.chrome()).
+       build();
+    driver.get(uri);
+
+    driver.getCurrentUrl().then(function (url) {
+      test.equal(url, 'http://localhost:3001/tests/uri/');
+    });
+    driver.findElement(by.id('origin')).getText().then(function (text) {
+      test.equal(text, 'http://localhost:3001');
+    });
+    driver.findElement(by.id('protocol')).getText().then(function (text) {
+      test.equal(text, 'http:');
+    });
+    driver.findElement(by.id('port')).getText().then(function (text) {
+      test.equal(text, '3001');
+    });
+    driver.findElement(by.id('hostname')).getText().then(function (text) {
+      test.equal(text, 'localhost');
     });
 
     driver.quit().then(test.done);
