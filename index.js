@@ -1,11 +1,8 @@
+var URI = require('urijs');
 var EventEmitter = require('events').EventEmitter;
 var instance = null;
 
 var location = window.history.location || window.location;
-
-if (!location.origin) {
-  location.origin = location.protocol + "//" + location.hostname + (location.port ? ':' + location.port: '');
-}
 
 module.exports = (function () {
 
@@ -18,10 +15,10 @@ module.exports = (function () {
   eventEmitter.addEventListener = eventEmitter.addListener;
   eventEmitter.removeEventListener = eventEmitter.removeListener;
 
-  var origin = location.origin;
+  var initialUrl = location.href;
+  var origin = URI(initialUrl).protocol() + '://' + URI(initialUrl).host();
   var isPreventingDefault = false;
   var doReplace = false;
-  var initialUrl = location.href;
   var prevUrl = '';
   var linkClicked = false;
   var isEmitting = false;
@@ -111,14 +108,40 @@ module.exports = (function () {
     }
   });
 
+  // expose URLUtils like API https://developer.mozilla.org/en-US/docs/Web/API/URLUtils
+  // thanks https://github.com/cofounders/urlutils for reference
+  Object.defineProperty(eventEmitter, 'origin', {
+    get: function () {
+      var uri = URI(location.href);
+      return uri.protocol() + '://' + uri.host();
+    }
+  });
+
+  Object.defineProperty(eventEmitter, 'protocol', {
+    get: function () {
+      return URI(location.href).protocol() + ':';
+    }
+  });
+
+  'hash host hostname href password pathname port search username'
+    .split(/\s+/)
+    .forEach(function (property) {
+      Object.defineProperty(eventEmitter, property, {
+        get: function () {
+          return URI(location.href)[property]();
+        },
+        set: function (value) {
+          eventEmitter.value = URI(location.href)[property](value).toString();
+        }
+      });
+    });
+
   /*
     This code is from the Page JS source code. Amazing work on handling all
     kinds of scenarios with hyperlinks, thanks!
    */
 
   var isSameOrigin = function (href) {
-    var origin = location.protocol + '//' + location.hostname;
-    if (location.port) origin += ':' + location.port;
     return (href && (0 === href.indexOf(origin)));
   }
 

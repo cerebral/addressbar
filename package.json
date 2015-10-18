@@ -27,5 +27,8 @@
     "nodeunit": "^0.9.1",
     "selenium-webdriver": "^2.46.1",
     "webpack": "^1.12.1"
+  },
+  "dependencies": {
+    "urijs": "^1.16.1"
   }
 }
