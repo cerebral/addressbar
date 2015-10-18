@@ -7,14 +7,27 @@
     <div id="port"></div>
     <div id="hostname"></div>
     <div id="pathname"></div>
+    <div id="hash"></div>
+    <a id="messages" href="/#/messages">messages</a>
     <script src="/build/addressbar.js"></script>
     <script>
 
-    document.querySelector('#origin').innerHTML = addressbar.origin;
-    document.querySelector('#protocol').innerHTML = addressbar.protocol;
-    document.querySelector('#port').innerHTML = addressbar.port;
-    document.querySelector('#hostname').innerHTML = addressbar.hostname;
-    document.querySelector('#pathname').innerHTML = addressbar.pathname;
+    function setDetails() {
+      document.querySelector('#origin').innerHTML = addressbar.origin;
+      document.querySelector('#protocol').innerHTML = addressbar.protocol;
+      document.querySelector('#port').innerHTML = addressbar.port;
+      document.querySelector('#hostname').innerHTML = addressbar.hostname;
+      document.querySelector('#pathname').innerHTML = addressbar.pathname;
+      document.querySelector('#hash').innerHTML = addressbar.hash;
+    }
+
+    addressbar.addEventListener('change', function (event) {
+      event.preventDefault();
+      addressbar.value = event.target.value;
+      setDetails();
+    });
+
+    setDetails();
 
     </script>
   </body>

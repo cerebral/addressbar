@@ -372,6 +372,18 @@ exports['should expose origin, protocol, port and hostname as properties'] = fun
     driver.findElement(by.id('pathname')).getText().then(function (text) {
       test.equal(text, '/tests/uri/');
     });
+    driver.findElement(by.id('hash')).getText().then(function (text) {
+      test.equal(text, '');
+    });
+
+    driver.findElement(by.id('messages')).click();
+    driver.findElement(by.id('pathname')).getText().then(function (text) {
+      test.equal(text, '/');
+    });
+    driver.findElement(by.id('hash')).getText().then(function (text) {
+      test.equal(text, '#/messages');
+    });
+
     driver.quit().then(test.done);
 
 };

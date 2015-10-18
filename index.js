@@ -141,6 +141,12 @@ module.exports = (function () {
     }
   });
 
+  Object.defineProperty(eventEmitter, 'hash', {
+    get: function () {
+      return URI(location.href).hash();
+    }
+  });
+
   /*
     This code is from the Page JS source code. Amazing work on handling all
     kinds of scenarios with hyperlinks, thanks!
