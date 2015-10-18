@@ -25,6 +25,7 @@ addressbar.origin // "http://www.example.com"
 addressbar.port // ""
 addressbar.protocol // "http:"
 addressbar.hostname // "www.example.com"
+addressbar.pathname // "/"
 
 // Prevent route changes on hyperlinks
 addressbar.addEventListener('change', function (event) {

@@ -369,7 +369,9 @@ exports['should expose origin, protocol, port and hostname as properties'] = fun
     driver.findElement(by.id('hostname')).getText().then(function (text) {
       test.equal(text, 'localhost');
     });
-
+    driver.findElement(by.id('pathname')).getText().then(function (text) {
+      test.equal(text, '/tests/uri/');
+    });
     driver.quit().then(test.done);
 
 };
