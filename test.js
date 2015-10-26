@@ -330,7 +330,7 @@ exports['should be able to replace the set url'] = function (test) {
       test.equal(url, baseUrl + '#/home');
     });
 
-    driver.findElement(by.id('messages')).click();
+    driver.findElement(by.id('messagesReplace')).click();
     driver.getCurrentUrl().then(function (url) {
       test.equal(url, baseUrl + '#/messages');
     });
@@ -341,6 +341,24 @@ exports['should be able to replace the set url'] = function (test) {
     });
     driver.findElement(by.id('url')).getText().then(function (text) {
       test.equal(text, 'http://localhost:3001/tests/replace/');
+    });
+
+    driver.findElement(by.id('home')).click();
+    driver.getCurrentUrl().then(function (url) {
+      test.equal(url, baseUrl + '#/home');
+    });
+
+    driver.findElement(by.id('messages')).click();
+    driver.getCurrentUrl().then(function (url) {
+      test.equal(url, baseUrl + '#/messages');
+    });
+
+    driver.navigate().back();
+    driver.getCurrentUrl().then(function (url) {
+      test.equal(url, 'http://localhost:3001/#/home');
+    });
+    driver.findElement(by.id('url')).getText().then(function (text) {
+      test.equal(text, 'http://localhost:3001/#/home');
     });
 
     driver.quit().then(test.done);
