@@ -6,15 +6,16 @@
       function changeUrl () {
         addressbar.value = '/#/home'
       }
-      function replaceUrl () {
+      function replaceUrl (replace) {
         addressbar.value = {
           value: '/#/messages',
-          replace: true
+          replace: replace
         }
       }
     </script>
     <button id="home" onClick="changeUrl()">home</button>
-    <button id="messages" onClick="replaceUrl()">messages</button>
+    <button id="messagesReplace" onClick="replaceUrl(true)">messages</button>
+    <button id="messages" onClick="replaceUrl(false)">messages</button>
     <div id="url"></div>
     <script src="/build/addressbar.js"></script>
     <script>

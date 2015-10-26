@@ -73,8 +73,8 @@ module.exports = (function () {
     set: function (value) {
 
       if (typeof value !== 'string') {
-          value = value.value;
           doReplace = Boolean(value.replace);
+          value = value.value;
       }
 
       // If emitting a change we flag that we are setting
