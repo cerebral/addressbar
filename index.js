@@ -1,4 +1,4 @@
-var URI = require('urijs');
+var URL = require('url-parse');
 var EventEmitter = require('events').EventEmitter;
 var instance = null;
 
@@ -16,7 +16,8 @@ module.exports = (function () {
   eventEmitter.removeEventListener = eventEmitter.removeListener;
 
   var initialUrl = location.href;
-  var origin = URI(initialUrl).protocol() + '://' + URI(initialUrl).host();
+  var uri = URL(initialUrl);
+  var origin = uri.protocol + '://' + uri.host;
   var isPreventingDefault = false;
   var doReplace = false;
   var prevUrl = '';
@@ -112,38 +113,38 @@ module.exports = (function () {
   // thanks https://github.com/cofounders/urlutils for reference
   Object.defineProperty(eventEmitter, 'origin', {
     get: function () {
-      var uri = URI(location.href);
-      return uri.protocol() + '://' + uri.host();
+      var uri = URL(location.href);
+      return uri.protocol + '://' + uri.host;
     }
   });
 
   Object.defineProperty(eventEmitter, 'protocol', {
     get: function () {
-      return URI(location.href).protocol() + ':';
+      return URL(location.href).protocol + ':';
     }
   });
 
   Object.defineProperty(eventEmitter, 'port', {
     get: function () {
-      return URI(location.href).port();
+      return URL(location.href).port;
     }
   });
 
   Object.defineProperty(eventEmitter, 'hostname', {
     get: function () {
-      return URI(location.href).hostname();
+      return URL(location.href).hostname;
     }
   });
 
   Object.defineProperty(eventEmitter, 'pathname', {
     get: function () {
-      return URI(location.href).pathname();
+      return URL(location.href).pathname;
     }
   });
 
   Object.defineProperty(eventEmitter, 'hash', {
     get: function () {
-      return URI(location.href).hash();
+      return URL(location.href).hash;
     }
   });
 

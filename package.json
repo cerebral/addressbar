@@ -29,6 +29,6 @@
     "webpack": "^1.12.1"
   },
   "dependencies": {
-    "urijs": "^1.16.1"
+    "url-parse": "^1.0.5"
   }
 }
