@@ -17,7 +17,7 @@ module.exports = (function () {
 
   var initialUrl = location.href;
   var uri = URL(initialUrl);
-  var origin = uri.protocol + '://' + uri.host;
+  var origin = uri.protocol + '//' + uri.host;
   var isPreventingDefault = false;
   var doReplace = false;
   var prevUrl = '';
@@ -114,13 +114,13 @@ module.exports = (function () {
   Object.defineProperty(eventEmitter, 'origin', {
     get: function () {
       var uri = URL(location.href);
-      return uri.protocol + '://' + uri.host;
+      return uri.protocol + '//' + uri.host;
     }
   });
 
   Object.defineProperty(eventEmitter, 'protocol', {
     get: function () {
-      return URL(location.href).protocol + ':';
+      return URL(location.href).protocol;
     }
   });
 
