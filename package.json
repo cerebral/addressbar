@@ -1,6 +1,6 @@
 {
   "name": "addressbar",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Makes the addressbar of the browser work just like a normal input",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/christianalfoni/addressbar.git"
+    "url": "git+https://github.com/cerebral/addressbar.git"
   },
   "keywords": [
     "router",
@@ -20,9 +20,9 @@
   "author": "Christian Alfoni",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/christianalfoni/addressbar/issues"
+    "url": "https://github.com/cerebral/addressbar/issues"
   },
-  "homepage": "https://github.com/christianalfoni/addressbar#readme",
+  "homepage": "https://github.com/cerebral/addressbar#readme",
   "devDependencies": {
     "nodeunit": "^0.9.1",
     "selenium-webdriver": "^2.46.1",
