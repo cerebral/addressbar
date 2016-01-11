@@ -6,7 +6,9 @@
   "scripts": {
     "start": "python -m SimpleHTTPServer 3001",
     "build": "webpack",
-    "test": "webpack && nodeunit test.js"
+    "prestart": "npm run build",
+    "pretest": "npm run build",
+    "test": "nodeunit test.js"
   },
   "repository": {
     "type": "git",
@@ -14,10 +16,14 @@
   },
   "keywords": [
     "router",
+    "history",
     "url",
     "reactive"
   ],
-  "author": "Christian Alfoni",
+  "author": "Christian Alfoni <christianalfoni@gmail.com>",
+  "contributors": [
+    "Aleksey Guryanov <gurianov@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/cerebral/addressbar/issues"
@@ -30,5 +36,13 @@
   },
   "dependencies": {
     "url-parse": "^1.0.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "ghooks": {
+      "commit-msg": "validate-commit-msg"
+    }
   }
 }
