@@ -1,6 +1,12 @@
 # addressbar
 Makes the addressbar of the browser work just like a normal input
 
+[![NPM version][npm-image]][npm-url]
+[![Build status][travis-image]][travis-url]
+[![Commitizen friendly][commitizen-image]][commitizen-url]
+[![Semantic Release][semantic-release-image]][semantic-release-url]
+[![js-standard-style][standard-image]][standard-url]
+
 ## What is this thing?
 How would you handle URLs if the addressbar was just an input? An input you could listen to changes, `preventDefault()` on and manually set the value without any sideeffect? What if you could think about changing the url as an event in your app, which you reacted to, instead of letting a route library swallow your view layer and mess around with it in a strongly opinionated way? What if you could have the freedom to make the URL mean whatever you wanted? Not just changes in what views to display?
 
@@ -47,3 +53,14 @@ Run tests:
 - `npm install`
 - `npm start` (fires up a python webservice)
 - `npm test` (Runs tests)
+
+[npm-image]: https://img.shields.io/npm/v/addressbar.svg?style=flat
+[npm-url]: https://npmjs.org/package/addressbar
+[travis-image]: https://img.shields.io/travis/cerebral/addressbar.svg?style=flat
+[travis-url]: https://travis-ci.org/cerebral/addressbar
+[commitizen-image]: https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
+[commitizen-url]: http://commitizen.github.io/cz-cli/
+[semantic-release-image]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square
+[semantic-release-url]: https://github.com/semantic-release/semantic-release
+[standard-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg
+[standard-url]: http://standardjs.com/
