@@ -1,14 +1,15 @@
 {
   "name": "addressbar",
+  "version": "0.0.0-semantically-released",
   "description": "Makes the addressbar of the browser work just like a normal input",
   "main": "index.js",
   "scripts": {
-    "start": "python -m SimpleHTTPServer 3001",
-    "build": "webpack",
-    "lint": "standard",
     "prestart": "npm run build",
+    "start": "python -m SimpleHTTPServer 3001",
     "pretest": "npm run lint && npm run build",
     "test": "nodeunit tests/index.js",
+    "build": "webpack",
+    "lint": "standard",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
@@ -33,9 +34,9 @@
   "devDependencies": {
     "nodeunit": "^0.9.1",
     "selenium-webdriver": "^2.46.1",
+    "semantic-release": "^4.3.5",
     "standard": "^5.4.1",
-    "webpack": "^1.12.1",
-    "semantic-release": "^4.3.5"
+    "webpack": "^1.12.1"
   },
   "dependencies": {
     "url-parse": "^1.0.5"
