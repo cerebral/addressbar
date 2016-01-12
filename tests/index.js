@@ -11,7 +11,7 @@ var replace = baseUrl + 'tests/replace/'
 var uri = baseUrl + 'tests/uri/'
 
 exports['should display current url'] = function (test) {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
+  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.phantomjs()).build()
   driver.get(preventUrl)
   driver.getCurrentUrl().then(function (url) {
     test.equal(url, preventUrl)
@@ -20,7 +20,7 @@ exports['should display current url'] = function (test) {
 }
 
 exports['should not allow going to a new url'] = function (test) {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
+  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.phantomjs()).build()
   driver.get(preventUrl)
   driver.navigate().to(preventUrl + '#/foo')
   driver.getCurrentUrl().then(function (url) {
@@ -30,7 +30,7 @@ exports['should not allow going to a new url'] = function (test) {
 }
 
 exports['should set url manually when prevented'] = function (test) {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
+  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.phantomjs()).build()
   driver.get(setUrl)
   driver.navigate().to(setUrl + '#/foo')
   driver.getCurrentUrl().then(function (url) {
@@ -40,7 +40,7 @@ exports['should set url manually when prevented'] = function (test) {
 }
 
 exports['should go to popstate url'] = function (test) {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
+  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.phantomjs()).build()
   driver.get(popstateUrl)
 
   driver.findElement(by.id('messages')).click()
@@ -57,7 +57,7 @@ exports['should go to popstate url'] = function (test) {
 }
 
 exports['should handle back and forward with popstate'] = function (test) {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
+  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.phantomjs()).build()
   driver.get(popstateUrl)
 
   driver.findElement(by.id('messages')).click()
@@ -80,7 +80,7 @@ exports['should handle back and forward with popstate'] = function (test) {
 }
 
 exports['should go to hash url'] = function (test) {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
+  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.phantomjs()).build()
   driver.get(hashUrl)
 
   driver.findElement(by.id('messages')).click()
@@ -97,7 +97,7 @@ exports['should go to hash url'] = function (test) {
 }
 
 exports['should handle back and forward with hash'] = function (test) {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
+  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.phantomjs()).build()
   driver.get(hashUrl)
 
   driver.findElement(by.id('messages')).click()
@@ -120,7 +120,7 @@ exports['should handle back and forward with hash'] = function (test) {
 }
 
 exports['should handle trailing slash convertion'] = function (test) {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
+  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.phantomjs()).build()
   driver.get(trailingUrl + '#/messages/123')
   driver.navigate().to(trailingUrl + '#/messages/')
   driver.getCurrentUrl().then(function (url) {
@@ -141,7 +141,7 @@ exports['should handle trailing slash convertion'] = function (test) {
 }
 
 exports['should resume history when changing url when on "back" url'] = function (test) {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
+  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.phantomjs()).build()
   driver.get(hashUrl)
 
   driver.findElement(by.id('messages')).click()
@@ -165,7 +165,7 @@ exports['should resume history when changing url when on "back" url'] = function
 }
 
 exports['should be able to go forward and backwards twice'] = function (test) {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
+  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.phantomjs()).build()
   driver.get(uichange)
 
   driver.findElement(by.id('messages')).click()
@@ -204,7 +204,7 @@ exports['should be able to go forward and backwards twice'] = function (test) {
 }
 
 exports['should be able to move back and forward with mix of url and setting manually and still use back button'] = function (test) {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
+  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.phantomjs()).build()
   driver.get(uichange)
 
   driver.findElement(by.id('home')).click()
@@ -275,7 +275,7 @@ exports['should be able to move back and forward with mix of url and setting man
 }
 
 exports['should be able to replace the set url'] = function (test) {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
+  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.phantomjs()).build()
   driver.get(replace)
 
   driver.findElement(by.id('home')).click()
@@ -318,7 +318,7 @@ exports['should be able to replace the set url'] = function (test) {
 }
 
 exports['should expose origin, protocol, port and hostname as properties'] = function (test) {
-  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build()
+  var driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.phantomjs()).build()
   driver.get(uri)
 
   driver.getCurrentUrl().then(function (url) {
