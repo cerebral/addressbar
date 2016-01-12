@@ -6,8 +6,9 @@
   "scripts": {
     "start": "python -m SimpleHTTPServer 3001",
     "build": "webpack",
+    "lint": "standard",
     "prestart": "npm run build",
-    "pretest": "npm run build",
+    "pretest": "npm run lint && npm run build",
     "test": "nodeunit test.js"
   },
   "repository": {
@@ -32,6 +33,7 @@
   "devDependencies": {
     "nodeunit": "^0.9.1",
     "selenium-webdriver": "^2.46.1",
+    "standard": "^5.4.1",
     "webpack": "^1.12.1"
   },
   "dependencies": {

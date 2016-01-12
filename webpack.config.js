@@ -1,7 +1,5 @@
-var Webpack = require('webpack');
-var path = require('path');
-var nodeModulesPath = path.resolve(__dirname, 'node_modules');
-var buildPath = path.resolve(__dirname, 'build');
+var path = require('path')
+var buildPath = path.resolve(__dirname, 'build')
 
 var config = {
   context: __dirname,
@@ -14,6 +12,6 @@ var config = {
     libraryTarget: 'umd',
     library: 'addressbar'
   }
-};
+}
 
-module.exports = config;
+module.exports = config
