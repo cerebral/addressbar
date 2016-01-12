@@ -1,6 +1,5 @@
 {
   "name": "addressbar",
-  "version": "0.4.4",
   "description": "Makes the addressbar of the browser work just like a normal input",
   "main": "index.js",
   "scripts": {
@@ -9,11 +8,12 @@
     "lint": "standard",
     "prestart": "npm run build",
     "pretest": "npm run lint && npm run build",
-    "test": "nodeunit test.js"
+    "test": "nodeunit test.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cerebral/addressbar.git"
+    "url": "https://github.com/cerebral/addressbar.git"
   },
   "keywords": [
     "router",
@@ -34,7 +34,8 @@
     "nodeunit": "^0.9.1",
     "selenium-webdriver": "^2.46.1",
     "standard": "^5.4.1",
-    "webpack": "^1.12.1"
+    "webpack": "^1.12.1",
+    "semantic-release": "^4.3.5"
   },
   "dependencies": {
     "url-parse": "^1.0.5"
