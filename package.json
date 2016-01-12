@@ -32,10 +32,14 @@
   },
   "homepage": "https://github.com/cerebral/addressbar#readme",
   "devDependencies": {
+    "commitizen": "^2.5.0",
+    "cz-customizable": "^2.7.0",
+    "ghooks": "^1.0.3",
     "nodeunit": "^0.9.1",
     "selenium-webdriver": "^2.46.1",
     "semantic-release": "^4.3.5",
     "standard": "^5.4.1",
+    "validate-commit-msg": "^1.0.0",
     "webpack": "^1.12.1"
   },
   "dependencies": {
