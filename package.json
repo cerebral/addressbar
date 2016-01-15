@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "python -m SimpleHTTPServer 3001",
-    "pretest": "npm run lint && npm run build",
+    "pretest": "npm run lint || npm run build",
     "test": "nodeunit tests/index.js",
     "build": "webpack",
     "lint": "standard",
@@ -35,7 +35,9 @@
     "commitizen": "^2.5.0",
     "cz-customizable": "^2.7.0",
     "ghooks": "^1.0.3",
+    "mocha": "^2.3.4",
     "nodeunit": "^0.9.1",
+    "phantomjs": "^1.9.19",
     "selenium-webdriver": "^2.46.1",
     "semantic-release": "^4.3.5",
     "standard": "^5.4.1",
