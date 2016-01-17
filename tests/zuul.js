@@ -24,7 +24,7 @@ function restorePrevUrl () {
 }
 
 beforeEach(function (done) {
-  history.pushState({}, '', path)
+  addressbar.value = path
   setTimeout(done, 10)
 })
 
@@ -77,10 +77,7 @@ describe('addressbar', function () {
     })
 
     it('should push state on assign', function (done) {
-      var length = history.length
-
       addressbar.value = path + '#assign'
-      assert.equal(history.length, length + 1)
 
       addressbar.once('change', function () {
         assert.equal(addressbar.value, origin + path)
@@ -90,10 +87,7 @@ describe('addressbar', function () {
     })
 
     it('should push state by default if set with object', function (done) {
-      var length = history.length
-
       addressbar.value = { value: path + '#obj-assign' }
-      assert.equal(history.length, length + 1)
 
       addressbar.once('change', function () {
         assert.equal(addressbar.value, origin + path)
@@ -103,33 +97,37 @@ describe('addressbar', function () {
     })
 
     it('should allow replace state if set with object', function (done) {
-      var length = history.length
+      addressbar.value = path + '#initial'
 
       addressbar.value = { value: path + '#obj-replace-false', replace: false }
-      assert.equal(history.length, length + 1)
-
-      addressbar.value = { value: path + '#obj-replace-true', replace: true }
-      assert.equal(history.length, length + 1)
 
       addressbar.once('change', function () {
-        assert.equal(addressbar.value, origin + path)
-        done()
+        assert.equal(addressbar.value, origin + path + '#initial')
+
+        addressbar.value = { value: path + '#obj-replace-true', replace: true }
+
+        addressbar.once('change', function () {
+          assert.equal(addressbar.value, origin + path)
+          done()
+        })
+        history.back()
       })
       history.back()
     })
 
     it('should replace state if url have not changed', function (done) {
-      var length = history.length
-
       addressbar.value = path + '#same'
-      assert.equal(history.length, length + 1)
-
       addressbar.value = path + '#same'
-      assert.equal(history.length, length + 1)
+      addressbar.value = path + '#another'
 
       addressbar.once('change', function () {
-        assert.equal(addressbar.value, origin + path)
-        done()
+        assert.equal(addressbar.value, origin + path + '#same')
+
+        addressbar.once('change', function () {
+          assert.equal(addressbar.value, origin + path)
+          done()
+        })
+        history.back()
       })
       history.back()
     })
@@ -236,10 +234,28 @@ describe('addressbar', function () {
 
       location.hash = '#set-manually-after-prevented'
     })
+
+    it('should allow set manually if default prevented', function (done) {
+      var length = history.length
+
+      addressbar.on('change', preventDefault)
+      addressbar.on('change', function (event) {
+        addressbar.value = event.target.value
+        assert.equal(addressbar.value, origin + path + '#set-manually-after-prevented2')
+        assert.skip(history.length, length + 1)
+        done()
+      })
+
+      var a = document.createElement('a')
+      a.href = origin + path + '#set-manually-after-prevented2'
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+    })
   })
 
   describe('extra cases', function () {
-    it('should handle back and forward witn hash', function (done) {
+    it('should handle back and forward witn popstate', function (done) {
       addressbar.on('change', preventDefault)
       addressbar.on('change', function (event) {
         addressbar.value = event.target.value
@@ -251,6 +267,7 @@ describe('addressbar', function () {
       a.click()
       a.href = origin + path + '#/messages/123'
       a.click()
+      a.remove()
 
       assert.equal(addressbar.value, origin + path + '#/messages/123')
 
@@ -265,5 +282,7 @@ describe('addressbar', function () {
       })
       history.back()
     })
+
+    it('should handle trailing slash convertion')
   })
 })

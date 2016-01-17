@@ -50,7 +50,7 @@ module.exports = (function () {
         doReplace = true
       }
 
-      isEmitting = true
+      // isEmitting = true
       emitChange()
       isEmitting = false
 
@@ -76,13 +76,13 @@ module.exports = (function () {
         doReplace = Boolean(value.replace)
         value = value.value
       }
-/*
+
       // If emitting a change we flag that we are setting
       // a url based on the event being emitted
       if (isEmitting) {
         setSyncUrl = true
       }
-*/
+
       // Ensure full url
       if (value.indexOf(origin) === -1) {
         value = origin + value

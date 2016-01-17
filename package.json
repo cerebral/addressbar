@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "npm run build",
     "start": "python -m SimpleHTTPServer 3001",
-    "pretest": "npm run lint || npm run build",
+    "pretest": "npm run lint; npm run build",
     "test": "nodeunit tests/index.js",
     "build": "webpack",
     "lint": "standard",
