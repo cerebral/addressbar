@@ -64,7 +64,20 @@ module.exports = (function () {
     }
   }
 
-  global.addEventListener('popstate', onUrlChange('pop'))
+  // this hack resolves issue with safari
+  // see issue from Page JS for reference https://github.com/visionmedia/page.js/issues/213
+  // see also https://github.com/visionmedia/page.js/pull/240
+  if (document.readyState !== 'complete') {
+    // load event has not fired
+    global.addEventListener('load', function () {
+      setTimeout(function () {
+        global.addEventListener('popstate', onUrlChange('pop'), false)
+      }, 0)
+    }, false)
+  } else {
+    // load event has fired
+    global.addEventListener('popstate', onUrlChange('pop'), false)
+  }
 
   Object.defineProperty(eventEmitter, 'value', {
     get: function () {
@@ -148,7 +161,7 @@ module.exports = (function () {
   /*
     This code is from the Page JS source code. Amazing work on handling all
     kinds of scenarios with hyperlinks, thanks!
-   */
+  */
 
   var isSameOrigin = function (href) {
     return (href && (href.indexOf(origin) === 0))
