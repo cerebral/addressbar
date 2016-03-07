@@ -4,7 +4,8 @@ var URL = require('url-parse')
 var EventEmitter = require('events').EventEmitter
 var instance = null
 
-var location = window.location
+// Check if IE history polyfill is added
+var location = window.history.location || window.location
 
 module.exports = (function () {
   if (instance) {
