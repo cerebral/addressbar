@@ -1,7 +1,7 @@
 /* global history */
 
 var URL = require('url-parse')
-var EventEmitter = require('events').EventEmitter
+var EventEmitter = require('eventemitter3').EventEmitter
 var instance = null
 
 // Check if IE history polyfill is added
