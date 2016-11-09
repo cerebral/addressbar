@@ -43,6 +43,7 @@
     "webpack": "^1.12.1"
   },
   "dependencies": {
+    "eventemitter3": "^2.0.2",
     "url-parse": "^1.0.5"
   },
   "config": {
