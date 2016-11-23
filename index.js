@@ -41,7 +41,7 @@ module.exports = (function () {
 
   var onUrlChange = function (type) {
     return function (event) {
-      if (location.href === prevUrl) {
+      if (!event.state || location.href === prevUrl) {
         return
       }
 
